@@ -1,6 +1,6 @@
 //Servidor
 const express = require('express');
-const logger = reuquire ('morgan');
+const logger = require ('morgan');
 const bodyParser = require('body-parser');
 //Apis
 const http = require ('http');
