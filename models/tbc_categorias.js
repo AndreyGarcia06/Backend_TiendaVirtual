@@ -22,5 +22,12 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'tbc_categorias',
   });
+
+  tbc_categorias.associate = function(models) {
+    tbc_categorias.hasMany(models.tbb_productos, {
+      as: 'tbb_productos',
+      foreignKey: 'id_categoria'
+    });
+  };
   return tbc_categorias;
 };

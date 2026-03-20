@@ -23,20 +23,27 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     precio: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
     stock: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.INTEGER(10),
       allowNull: false
     },
     id_categoria: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.INTEGER(10),
       allowNull: false
     }
   }, {
     sequelize,
     modelName: 'tbb_productos',
   });
+
+  tbb_productos.associate = function(models) {
+    tbb_productos.belongsTo(models.tbc_categorias, {
+      as: 'tbc_categorias',
+      foreignKey: 'id_categoria',
+    });
+  };
   return tbb_productos;
 };

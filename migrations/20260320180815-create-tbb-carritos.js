@@ -10,15 +10,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       fecha_creacion: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.DATE,
         allowNull: false
       },
       total: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false
       },
       id_usuario: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.INTEGER(10),
         allowNull: false
       },
       createdAt: {

@@ -10,19 +10,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_carrito: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.INTEGER(10),
         allowNull: false
       },
       precio_unitario: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false
       },
       cantidad: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.INTEGER(10),
         allowNull: false
       },
       id_producto: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.INTEGER(10),
         allowNull: false
       },
       createdAt: {

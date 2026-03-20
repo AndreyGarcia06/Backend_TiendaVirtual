@@ -18,16 +18,22 @@ module.exports = {
         allowNull: false
       },
       precio: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false
       },
       stock: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.INTEGER(10),
         allowNull: false
       },
       id_categoria: {
-        type: Sequelize.STRING(10),
-        allowNull: false
+        type: Sequelize.INTEGER(10),
+        allowNull: false,
+        references: {
+          model: 'tbc_categorias',
+          key: 'id',
+        },
+        onUpdate: 'NO ACTION',
+        onDelete: 'NO ACTION',
       },
       createdAt: {
         allowNull: false,

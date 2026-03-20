@@ -15,15 +15,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   tbb_carritos.init({
     fecha_creacion: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.DATE,
       allowNull: false
     },
     total: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
     id_usuario: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.INTEGER(10),
       allowNull: false
     }
   }, {
