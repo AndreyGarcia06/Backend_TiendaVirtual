@@ -14,9 +14,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   tbb_carritos.init({
-    fecha_creacion: DataTypes.STRING,
-    total: DataTypes.STRING,
-    id_usuario: DataTypes.STRING
+    fecha_creacion: {
+      type: DataTypes.STRING(20),
+      allowNull: false
+    },
+    total: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    },
+    id_usuario: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'tbb_carritos',

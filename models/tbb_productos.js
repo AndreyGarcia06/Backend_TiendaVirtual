@@ -14,11 +14,26 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   tbb_productos.init({
-    nombre: DataTypes.STRING,
-    description: DataTypes.STRING,
-    precio: DataTypes.STRING,
-    stock: DataTypes.STRING,
-    id_categoria: DataTypes.STRING
+    nombre: {
+      type: DataTypes.STRING(255),
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING(500),
+      allowNull: false
+    },
+    precio: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    },
+    stock: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    },
+    id_categoria: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'tbb_productos',

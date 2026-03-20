@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   tbc_categorias.init({
-    nombre: DataTypes.STRING
+    nombre: {
+      type: DataTypes.STRING(150),
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'tbc_categorias',

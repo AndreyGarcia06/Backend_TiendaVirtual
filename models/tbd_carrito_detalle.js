@@ -14,10 +14,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   tbd_carrito_detalle.init({
-    id_carrito: DataTypes.STRING,
-    precio_unitario: DataTypes.STRING,
-    cantidad: DataTypes.STRING,
-    id_producto: DataTypes.STRING
+    id_carrito: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    },
+    precio_unitario: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    },
+    cantidad: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    },
+    id_producto: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'tbd_carrito_detalle',
