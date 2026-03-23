@@ -11,7 +11,13 @@ module.exports = {
       },
       id_carrito: {
         type: Sequelize.INTEGER(10),
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'tbb_carritos',
+          key: 'id',
+        },
+        onUpdate: 'NO ACTION',
+        onDelete: 'NO ACTION',
       },
       precio_unitario: {
         type: Sequelize.DECIMAL(10, 2),
@@ -23,7 +29,13 @@ module.exports = {
       },
       id_producto: {
         type: Sequelize.INTEGER(10),
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'tbb_productos',
+          key: 'id',
+        },
+        onUpdate: 'NO ACTION',
+        onDelete: 'NO ACTION',
       },
       createdAt: {
         allowNull: false,
