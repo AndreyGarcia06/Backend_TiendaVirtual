@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const productos = require('../models/tbb_productos');
-const { tbb_productos: producto } = require('../models');
+const db = require('../models');
+const producto = db.tbb_productos
 
 module.exports = {
     create(req, res) {
@@ -12,7 +12,7 @@ module.exports = {
             stock: req.body.stock,
             id_categoria: req.body.id_categoria
         })
-        .then(producto => res.status(201).send(producto))
+        .then(producto => res.status(200).send(producto))
         .catch(error => res.status(400).send(error));
     },
     list(_, res) {
@@ -41,7 +41,7 @@ module.exports = {
                 nombre: req.params.nombre,
             }
         })
-        .then(producto => res.status(200).send(producto))
+        .then(producto => res.status(200).send({mensaje: "Datos actualizados correctamente"}))
         .catch(error => res.status(400).send(error));
     },
     delete(req, res) {
@@ -50,7 +50,7 @@ module.exports = {
                 nombre: req.params.nombre,
             }
         })
-        .then(producto => res.status(200).send(producto))
+        .then(producto => res.status(200).send({mensaje: "Datos eliminados correctamente"}))
         .catch(error => res.status(400).send(error));
     },
 }

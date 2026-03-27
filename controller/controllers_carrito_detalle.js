@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const carritoDetalle = require('../models/tbd_carrito_detalle');
-const { tbd_carrito_detalle: detalle } = require('../models');
+const db = require('../models');
+const detalle = db.tbd_carrito_detalle
 
 module.exports = {
     create(req, res) {
@@ -11,7 +11,7 @@ module.exports = {
             cantidad: req.body.cantidad,
             id_producto: req.body.id_producto
         })
-        .then(detalle => res.status(201).send(detalle))
+        .then(detalle => res.status(200).send(detalle))
         .catch(error => res.status(400).send(error));
     },
     list(_, res) {
@@ -39,7 +39,7 @@ module.exports = {
                 id_carrito: req.params.id_carrito,
             }
         })
-        .then(detalle => res.status(200).send(detalle))
+        .then(detalle => res.status(200).send({mensaje: "Datos actualizados correctamente"}))
         .catch(error => res.status(400).send(error));
     },
     delete(req, res) {
@@ -48,7 +48,7 @@ module.exports = {
                 id_carrito: req.params.id_carrito,
             }
         })
-        .then(detalle => res.status(200).send(detalle))
+        .then(detalle => res.status(200).send({mensaje: "Datos eliminados correctamente"}))
         .catch(error => res.status(400).send(error));
     },
 }

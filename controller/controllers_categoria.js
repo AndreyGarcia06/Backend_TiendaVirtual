@@ -1,14 +1,14 @@
 const Sequelize = require('sequelize');
-const usuario = require('../models/tbc_categorias');
-const { tbc_categorias: categoria } = require('../models');
+const db = require('../models');
+const categoria = db.tbc_categorias
 
 module.exports = {
     create(req, res) {
         return categoria
         .create({
-            nombre: req.params.nombre
+            nombre: req.body.nombre
         })
-        .then(categoria => res.status(201).send(categoria))
+        .then(categoria => res.status(200).send(categoria))
         .catch(error => res.status(400).send(error));
     },
     list(_, res) {
@@ -30,19 +30,19 @@ module.exports = {
             nombre: req.body.nombre
         }, {
             where: {
-                nombre: req.params.nombre,
+                nombre: req.params.id
             }
         })
-        .then(categoria => res.status(200).send(categoria))
+        .then(categoria => res.status(200).send({mensaje: "Datos actualizados correctamente"}))
         .catch(error => res.status(400).send(error));
     },
     delete(req, res) {
         return categoria.destroy({
             where: {
-                nombre: req.params.nombre,
+                nombre: req.params.id
             }
         })
-        .then(categoria => res.status(200).send(categoria))
+        .then(categoria => res.status(200).send({mensaje: "Datos eliminados correctamente"}))
         .catch(error => res.status(400).send(error));
-    },
-}
+    }
+};

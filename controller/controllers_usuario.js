@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const usuario = require('../models/tbc_usuario');
-const { tbc_usuario: usuarioModel } = require('../models');
+const db = require('../models');
+const usuario = db.tbc_usuario;
 
 module.exports = {
     create(req, res) {
@@ -14,7 +14,7 @@ module.exports = {
             rol: req.body.rol,
             fecha_registro: req.body.fecha_registro
         })
-        .then(usuario => res.status(201).send(usuario))
+        .then(usuario => res.status(200).send(usuario))
         .catch(error => res.status(400).send(error));
     },
     list(_, res) {
@@ -45,7 +45,7 @@ module.exports = {
                 email: req.params.email,
             }
         })
-        .then(usuario => res.status(200).send(usuario))
+        .then(usuario => res.status(200).send({mensaje: "Datos actualizados correctamente"}))
         .catch(error => res.status(400).send(error));
     },
     delete(req, res) {
@@ -54,7 +54,7 @@ module.exports = {
                 email: req.params.email,
             }
         })
-        .then(usuario => res.status(200).send(usuario))
+        .then(usuario => res.status(200).send({mensaje: "Datos eliminados correctamente"}))
         .catch(error => res.status(400).send(error));
     },
 }

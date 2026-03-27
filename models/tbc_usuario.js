@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'cliente'
     },
     fecha_registro:{
-      type: DataTypes.Date,
+      type: DataTypes.DATE,
       allowNull:false
     }
   }, {
