@@ -4,7 +4,7 @@ const usuario = db.tbc_usuario;
 
 module.exports = {
     create(req, res) {
-        return usuarioModel
+        return usuario
         .create({
             nombre: req.body.nombre,
             direccion: req.body.direccion,
@@ -18,21 +18,22 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     },
     list(_, res) {
-        return usuarioModel.findAll({})
+        return usuario.findAll({})
         .then(usuarios => res.status(200).send(usuarios))
         .catch(error => res.status(400).send(error));
     },
     find(req, res) {
-        return usuarioModel.findAll({
-            where: {
-                email: req.params.email,
+        return usuario.findByPk(req.params.id)
+        .then(usuarioEncontrado => {
+            if (!usuarioEncontrado) {
+                return res.status(404).send({ mensaje: 'Usuario no encontrado' });
             }
+            return res.status(200).send(usuarioEncontrado);
         })
-        .then(usuario => res.status(200).send(usuario))
         .catch(error => res.status(400).send(error));
     },
     update(req, res) {
-        return usuarioModel.update({
+        return usuario.update({
             nombre: req.body.nombre,
             direccion: req.body.direccion,
             telefono: req.body.telefono,
@@ -42,19 +43,29 @@ module.exports = {
             fecha_registro: req.body.fecha_registro
         }, {
             where: {
-                email: req.params.email,
+                id: req.params.id,
             }
         })
-        .then(usuario => res.status(200).send({mensaje: "Datos actualizados correctamente"}))
+        .then(([filasActualizadas]) => {
+            if (!filasActualizadas) {
+                return res.status(404).send({ mensaje: 'Usuario no encontrado' });
+            }
+            return res.status(200).send({mensaje: "Datos actualizados correctamente"});
+        })
         .catch(error => res.status(400).send(error));
     },
     delete(req, res) {
-        return usuarioModel.destroy({
+        return usuario.destroy({
             where: {
-                email: req.params.email,
+                id: req.params.id,
             }
         })
-        .then(usuario => res.status(200).send({mensaje: "Datos eliminados correctamente"}))
+        .then(filasEliminadas => {
+            if (!filasEliminadas) {
+                return res.status(404).send({ mensaje: 'Usuario no encontrado' });
+            }
+            return res.status(200).send({mensaje: "Datos eliminados correctamente"});
+        })
         .catch(error => res.status(400).send(error));
     },
 }

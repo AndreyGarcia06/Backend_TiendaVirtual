@@ -19,12 +19,13 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     },
     find(req, res) {
-        return carrito.findAll({
-            where: {
-                id_usuario: req.params.id_usuario,
+        return carrito.findByPk(req.params.id)
+        .then(carritoEncontrado => {
+            if (!carritoEncontrado) {
+                return res.status(404).send({ mensaje: 'Carrito no encontrado' });
             }
+            return res.status(200).send(carritoEncontrado);
         })
-        .then(carrito => res.status(200).send(carrito))
         .catch(error => res.status(400).send(error));
     },
     update(req, res) {
@@ -34,19 +35,29 @@ module.exports = {
             id_usuario: req.body.id_usuario
         }, {
             where: {
-                id_usuario: req.params.id_usuario,
+                id: req.params.id,
             }
         })
-        .then(carrito => res.status(200).send({mensaje: "Datos actualizados correctamente"}))
+        .then(([filasActualizadas]) => {
+            if (!filasActualizadas) {
+                return res.status(404).send({ mensaje: 'Carrito no encontrado' });
+            }
+            return res.status(200).send({mensaje: "Datos actualizados correctamente"});
+        })
         .catch(error => res.status(400).send(error));
     },
     delete(req, res) {
         return carrito.destroy({
             where: {
-                id_usuario: req.params.id_usuario,
+                id: req.params.id,
             }
         })
-        .then(carrito => res.status(200).send({mensaje: "Datos eliminados correctamente"}))
+        .then(filasEliminadas => {
+            if (!filasEliminadas) {
+                return res.status(404).send({ mensaje: 'Carrito no encontrado' });
+            }
+            return res.status(200).send({mensaje: "Datos eliminados correctamente"});
+        })
         .catch(error => res.status(400).send(error));
     },
 }

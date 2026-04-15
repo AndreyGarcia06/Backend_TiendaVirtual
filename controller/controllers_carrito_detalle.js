@@ -20,12 +20,13 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     },
     find(req, res) {
-        return detalle.findAll({
-            where: {
-                id_carrito: req.params.id_carrito,
+        return detalle.findByPk(req.params.id)
+        .then(detalleEncontrado => {
+            if (!detalleEncontrado) {
+                return res.status(404).send({ mensaje: 'Detalle no encontrado' });
             }
+            return res.status(200).send(detalleEncontrado);
         })
-        .then(detalle => res.status(200).send(detalle))
         .catch(error => res.status(400).send(error));
     },
     update(req, res) {
@@ -36,19 +37,29 @@ module.exports = {
             id_producto: req.body.id_producto
         }, {
             where: {
-                id_carrito: req.params.id_carrito,
+                id: req.params.id,
             }
         })
-        .then(detalle => res.status(200).send({mensaje: "Datos actualizados correctamente"}))
+        .then(([filasActualizadas]) => {
+            if (!filasActualizadas) {
+                return res.status(404).send({ mensaje: 'Detalle no encontrado' });
+            }
+            return res.status(200).send({mensaje: "Datos actualizados correctamente"});
+        })
         .catch(error => res.status(400).send(error));
     },
     delete(req, res) {
         return detalle.destroy({
             where: {
-                id_carrito: req.params.id_carrito,
+                id: req.params.id,
             }
         })
-        .then(detalle => res.status(200).send({mensaje: "Datos eliminados correctamente"}))
+        .then(filasEliminadas => {
+            if (!filasEliminadas) {
+                return res.status(404).send({ mensaje: 'Detalle no encontrado' });
+            }
+            return res.status(200).send({mensaje: "Datos eliminados correctamente"});
+        })
         .catch(error => res.status(400).send(error));
     },
 }

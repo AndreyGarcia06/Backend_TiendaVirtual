@@ -17,12 +17,13 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     },
     find(req, res) {
-        return categoria.findAll({
-            where: {
-                nombre: req.params.nombre,
+        return categoria.findByPk(req.params.id)
+        .then(categoriaEncontrada => {
+            if (!categoriaEncontrada) {
+                return res.status(404).send({ mensaje: 'Categoria no encontrada' });
             }
+            return res.status(200).send(categoriaEncontrada);
         })
-        .then(categoria => res.status(200).send(categoria))
         .catch(error => res.status(400).send(error));
     },
     update(req, res) {
@@ -30,19 +31,29 @@ module.exports = {
             nombre: req.body.nombre
         }, {
             where: {
-                nombre: req.params.id
+                id: req.params.id
             }
         })
-        .then(categoria => res.status(200).send({mensaje: "Datos actualizados correctamente"}))
+        .then(([filasActualizadas]) => {
+            if (!filasActualizadas) {
+                return res.status(404).send({ mensaje: 'Categoria no encontrada' });
+            }
+            return res.status(200).send({mensaje: "Datos actualizados correctamente"});
+        })
         .catch(error => res.status(400).send(error));
     },
     delete(req, res) {
         return categoria.destroy({
             where: {
-                nombre: req.params.id
+                id: req.params.id
             }
         })
-        .then(categoria => res.status(200).send({mensaje: "Datos eliminados correctamente"}))
+        .then(filasEliminadas => {
+            if (!filasEliminadas) {
+                return res.status(404).send({ mensaje: 'Categoria no encontrada' });
+            }
+            return res.status(200).send({mensaje: "Datos eliminados correctamente"});
+        })
         .catch(error => res.status(400).send(error));
     }
 };
