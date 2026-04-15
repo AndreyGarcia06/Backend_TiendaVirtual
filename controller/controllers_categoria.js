@@ -17,14 +17,21 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     },
     find(req, res) {
-        return categoria.findByPk(req.params.id)
-        .then(categoriaEncontrada => {
-            if (!categoriaEncontrada) {
-                return res.status(404).send({ mensaje: 'Categoria no encontrada' });
-            }
-            return res.status(200).send(categoriaEncontrada);
-        })
-        .catch(error => res.status(400).send(error));
+        const criterio = req.params.id;
+        const esIdNumerico = /^\d+$/.test(criterio);
+
+        const busqueda = esIdNumerico
+            ? categoria.findByPk(criterio)
+            : categoria.findOne({ where: { nombre: criterio } });
+
+        return busqueda
+            .then(categoriaEncontrada => {
+                if (!categoriaEncontrada) {
+                    return res.status(404).send({ mensaje: 'Categoria no encontrada' });
+                }
+                return res.status(200).send(categoriaEncontrada);
+            })
+            .catch(error => res.status(400).send(error));
     },
     update(req, res) {
         return categoria.update({

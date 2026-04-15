@@ -21,14 +21,21 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     },
     find(req, res) {
-        return producto.findByPk(req.params.id)
-        .then(productoEncontrado => {
-            if (!productoEncontrado) {
-                return res.status(404).send({ mensaje: 'Producto no encontrado' });
-            }
-            return res.status(200).send(productoEncontrado);
-        })
-        .catch(error => res.status(400).send(error));
+        const criterio = req.params.id;
+        const esIdNumerico = /^\d+$/.test(criterio);
+
+        const busqueda = esIdNumerico
+            ? producto.findByPk(criterio)
+            : producto.findOne({ where: { nombre: criterio } });
+
+        return busqueda
+            .then(productoEncontrado => {
+                if (!productoEncontrado) {
+                    return res.status(404).send({ mensaje: 'Producto no encontrado' });
+                }
+                return res.status(200).send(productoEncontrado);
+            })
+            .catch(error => res.status(400).send(error));
     },
     update(req, res) {
         return producto.update({

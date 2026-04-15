@@ -23,14 +23,21 @@ module.exports = {
         .catch(error => res.status(400).send(error));
     },
     find(req, res) {
-        return usuario.findByPk(req.params.id)
-        .then(usuarioEncontrado => {
-            if (!usuarioEncontrado) {
-                return res.status(404).send({ mensaje: 'Usuario no encontrado' });
-            }
-            return res.status(200).send(usuarioEncontrado);
-        })
-        .catch(error => res.status(400).send(error));
+        const criterio = req.params.id;
+        const esIdNumerico = /^\d+$/.test(criterio);
+
+        const busqueda = esIdNumerico
+            ? usuario.findByPk(criterio)
+            : usuario.findOne({ where: { nombre: criterio } });
+
+        return busqueda
+            .then(usuarioEncontrado => {
+                if (!usuarioEncontrado) {
+                    return res.status(404).send({ mensaje: 'Usuario no encontrado' });
+                }
+                return res.status(200).send(usuarioEncontrado);
+            })
+            .catch(error => res.status(400).send(error));
     },
     update(req, res) {
         return usuario.update({
