@@ -4,6 +4,52 @@ const db = require('../models');
 const usuario = db.tbc_usuario;
 
 module.exports = {
+    registerPublic(req, res) {
+        const { nombre, direccion, telefono, email, password } = req.body;
+
+        if (!nombre || !direccion || !telefono || !email || !password) {
+            return res.status(400).send({ mensaje: 'Todos los campos son obligatorios' });
+        }
+
+        return usuario.findOne({ where: { email } })
+            .then((usuarioEncontrado) => {
+                if (usuarioEncontrado) {
+                    return res.status(409).send({ mensaje: 'El email ya está registrado' });
+                }
+
+                return usuario.create({
+                    nombre,
+                    direccion,
+                    telefono,
+                    email,
+                    password,
+                    rol: 'cliente',
+                    fecha_registro: req.body.fecha_registro || new Date(),
+                });
+            })
+            .then((usuarioCreado) => {
+                if (!usuarioCreado || !usuarioCreado.id) {
+                    return null;
+                }
+
+                const jwtSecret = process.env.JWT_SECRET || 'tienda_virtual_secret_dev';
+                const token = jwt.sign(
+                    {
+                        id: usuarioCreado.id,
+                        email: usuarioCreado.email,
+                        rol: usuarioCreado.rol,
+                    },
+                    jwtSecret,
+                    { expiresIn: '2h' }
+                );
+
+                return res.status(201).send({
+                    token,
+                    usuario: usuarioCreado,
+                });
+            })
+            .catch(error => res.status(400).send(error));
+    },
     create(req, res) {
         return usuario
         .create({
